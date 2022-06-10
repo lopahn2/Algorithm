@@ -1,30 +1,25 @@
-import sys
-n = int(sys.stdin.readline())
+n, m = map(int, input().split())
+board = []
+answer = []
+for _ in range(n):
+    board.append(input())
 
-colorPaper = [list(map(int, sys.stdin.readline().split())) for _ in range(n)]
-
-white = 0
-blue = 0
-
-def divideAndConquer(x, y, n):
-    global white, blue
-    sameColor = colorPaper[y][x]
-    for i in range(y, y+n):
-        for j in range(x, x+n):
-            if sameColor != colorPaper[i][j]:
-                divideAndConquer(x,y,n//2)
-                divideAndConquer(x+n//2,y,n//2)
-                divideAndConquer(x,y+n//2,n//2)
-                divideAndConquer(x+n//2,y+n//2,n//2)
-                return
-    if sameColor == 0 :
-        white += 1
-        return
-    else:
-        blue += 1
-        return
-    
-divideAndConquer(0,0,n)
-print(white)
-print(blue)
-                
+for col in range(n-7):
+    for row in range(m-7):
+        countW = 0
+        countB = 0 
+        for i in range(col, col+8):
+            for j in range(row, row+8):
+                if (i + j) % 2 == 0:
+                    if board[i][j] != "W":
+                        countW += 1
+                    if board[i][j] != "B":
+                        countB += 1
+                else:
+                    if board[i][j] != "W":
+                        countB += 1
+                    if board[i][j] != "B":
+                        countW += 1
+        answer.append(countW)
+        answer.append(countB)
+print(min(answer))
