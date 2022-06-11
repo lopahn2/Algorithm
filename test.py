@@ -1,25 +1,23 @@
-n, m = map(int, input().split())
-board = []
-answer = []
-for _ in range(n):
-    board.append(input())
-
-for col in range(n-7):
-    for row in range(m-7):
-        countW = 0
-        countB = 0 
-        for i in range(col, col+8):
-            for j in range(row, row+8):
-                if (i + j) % 2 == 0:
-                    if board[i][j] != "W":
-                        countW += 1
-                    if board[i][j] != "B":
-                        countB += 1
-                else:
-                    if board[i][j] != "W":
-                        countB += 1
-                    if board[i][j] != "B":
-                        countW += 1
-        answer.append(countW)
-        answer.append(countB)
-print(min(answer))
+def solution(record):
+    answer = []
+    trace = []
+    Map = {}
+    
+    for i in range(len(record)):
+        temp = record[i].split(' ')
+        if temp[0] == "Enter":
+            Map[temp[1]] = temp[2]
+            trace.append([temp[0], temp[1]])
+        elif temp[0] == "Leave":
+            trace.append([temp[0], temp[1]])
+        else:
+            Map[temp[1]] = temp[2]
+    for i in range(len(trace)):
+        if trace[i][0] == "Enter":
+            result = Map[trace[i][1]] + "님이 들어왔습니다."
+            answer.append(result)
+        elif trace[i][0] == "Leave":
+            result = Map[trace[i][1]] + "님이 나갔습니다."
+            answer.append(result)
+            
+    return answer
